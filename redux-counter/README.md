@@ -1,68 +1,156 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Redux Counter
+React-redux, Redux를 이용해서 만든 카운터
 
-## Available Scripts
+---
+## 사용기술
+- React
+- Redux
+- React-Redux
 
-In the project directory, you can run:
+---
 
-### `yarn start`
+## Redux의 3가지 규칙
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Store는 단 한개
+스토어는 반드시 한개여야 한다. <br>
+모듈화를 하고싶다면, [reducer를 여러개를 만든다.](./combineReducers.md) <br>
+나눠서 만든 각각의 reducer들은 고유의 state를 갖게되고, <br><br>
+Container 컴포넌트에서는 Connect시에, <br>
+ ``mapStateToProps``에서 필요한 reducer의 State를 바인딩 함으로써, 불필요한 데이터에 대한 조작을 막을 수 있다. <br>
+##### (Action은 정의방식이 그냥 VainilaJS 이므로 객체로 그룹화해서 관리하면 될 듯)
+<br>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### State는 읽기 전용
+State는 읽기 전용으로 수정이 불가능하다. <br>
+Reducer를 통해 State를 변화시킬 때도 기존값에 대한 수정이 아닌,<br> 새로운 객체를 만들어서 대입함으로써 변경한다.
 
-### `yarn test`
+<br>
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Reducer(변화)는 순수함수로 구성
+State의 변화는 순수함수를 통해 이루어져야 한다. <br>
+이말은 즉, State의 변화를 담당하는 Reducer는 순수함수여야 한다. <br>
+순수함수란, <br>
 
-### `yarn build`
+- 같은 입력(파라미터), 같은 출력
+- 함수는 파라미터와 내부 선언 변수에만 의존
+- 값이 달라지거나, 네트워크 문제가 발생할 수 있는 API 요청은 사용 X
+- 마찬가지로 호출시에 값이 달라지는 ``new Date()``나,  ``Math.random()``도 사용 불가
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+--- 
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## 사용 방법
+### Redux
+1. Action type(이름)을 정의한다.
+```Javascript
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br><br>
 
-### `yarn eject`
+2. Action을 정의한다. <br>
+Action Type 별 Action 객체를 생성하는 함수를 정의한다.
+```Javascript
+import * as types from './ActionTypes';
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export const increment = (index) => ({
+    type: types.INCREMENT,
+    index
+});
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export const decrement = (index) => ({
+    type: types.DECREMENT,
+    index
+});
+```
+<br><br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3. Reducer를 정의한다. <br>
+Action Type별, Action 객체의 데이터를 이용한 로직 작성
+```Javascript
+function reducer(state = initialState, action) {
+    switch (action.type) {
+        case types.INCREMENT:
+            return {
+                ...state,
+                number: state.number + 1
+            }
+            break;
+        case types.DECREMENT:
+            return {
+                ...state,
+                number: state.number + 1
+            }
+            break;
+        default:
+            return state;
+            break;
+    }
+}
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+export default reducer;
+```
+<br><br>
 
-## Learn More
+4. Store를 생성한다.
+```Javascript
+...
+import reducers from './reducers';
+import { createStore } from 'redux';
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const store = createStore(reducers);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+// Redux Devtool 사용 시
+// const store = createStore(reducers, window.devToolsExtension && window.devToolsExtension());
+```
+<br><br>
 
-### Code Splitting
+### React-Redux
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+5. react-redux를 이용해서 React App에 Store를 붙인다.
+```Javascript
+...
+import { Provider } from 'react-redux';
 
-### Analyzing the Bundle Size
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+<br><br>
 
-### Making a Progressive Web App
+6. Container Component에 연결 <br>
+    Container Component는 실제로 화면에 나타날 Presentation Component를 감싸는 컴포넌트
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+    1. ``mapStateToProp`` 정의<br>
+    사용하고자 하는 Redux의 State를 Presentation Component에 prop으로 정의
+    ```javascript
+    const mapReduxStateToProps = (state) => ({
+        number: state.number
+    });
+    ```
 
-### Advanced Configuration
+    2. ``mapDispatchToProp`` 정의 <br>
+    ```javascript
+    import * as actions from '../actions';
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+    const mapDispatchToProps = (dispatch) => ({
+        onIncrement: () => dispatch(actions.increment()),
+        onDecrement: () => dispatch(actions.decrement()),
+    });
+    ```
 
-### Deployment
+    3. ``connect``메소드를 이용해서 Presentation Component에 연결 <br>
+    ```javascript
+    import Counter from '../components/Counter';
+    import { connect } from 'react-redux';
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+    const CounterContainer = connect(
+        mapReduxStateToProps,
+        mapDispatchToProps
+    )(Counter);
+    ```
 
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

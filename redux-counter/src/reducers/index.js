@@ -1,47 +1,70 @@
-import number from './number';
-import color from './color';
+import * as types from '../actions/ActionTypes';
 
-import { combineReducers } from 'redux';
+const initialState = {
+    counters: [
+        {
+            color: 'black',
+            number: 0
+        }
+    ]
+};
 
-const reducers = combineReducers({
-    numberData: number,
-    colorData: color
-});
 
-export default reducers;
+function counter(state = initialState, action) {
+    const { counters } = state;
+    const selectedCounter = (!isNaN(action.index)) ? counters[action.index] : null;
 
+    switch (action.type) {
+        case types.CREATE:
+            return {
+                counters: [
+                    ...counters,
+                    {
+                        color: action.color,
+                        number: 0
+                    }
+                ]
+            }
+        case types.REMOVE:
+            return {
+                counters: counters.slice(0, counters.length - 1)
+            }
+        case types.INCREMENT:
+            return {
+                counters: [
+                    ...counters.slice(0, action.index),
+                    {
+                        ...selectedCounter,
+                        number: selectedCounter.number + 1
+                    },
+                    ...counters.slice(action.index + 1, counters.length)
+                ]
+            }
+        case types.DECREMENT:
+            return {
+                counters: [
+                    ...counters.slice(0, action.index),
+                    {
+                        ...selectedCounter,
+                        number: selectedCounter.number - 1
+                    },
+                    ...counters.slice(action.index + 1, counters.length)
+                ]
+            }
+        case types.SET_COLOR:
+            return {
+                counters: [
+                    ...counters.slice(0, action.index),
+                    {
+                        ...selectedCounter,
+                        color: action.color
+                    },
+                    ...counters.slice(action.index + 1, counters.length)
+                ]
+            }
+        default:
+            return state;
+    }
+}
 
-// import * as types from '../actions/ActionTypes';
-
-// const initialState = {
-//     color: 'black',
-//     number: 0
-// };
-
-// function counter(state = initialState, action) {
-//     switch (action.type) {
-//         case types.INCREMENT:
-//             return {
-//                 ...state,
-//                 number: state.number + 1
-//             }
-//             break;
-//         case types.DECREMENT:
-//             return {
-//                 ...state,
-//                 number: state.number + 1
-//             }
-//             break;
-//         case types.SET_COLOR:
-//             return {
-//                 ...state,
-//                 color: action.color
-//             }
-//             break;
-//         default:
-//             return state;
-//             break;
-//     }
-// }
-
-// export default counter;
+export default counter;
