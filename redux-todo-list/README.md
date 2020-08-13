@@ -4,8 +4,9 @@
 ---
 
 ## 사용기술
-- React
-- Redux
-- React-Redux
-- Immutable
-
+- react
+- redux
+- [immutable](./immutable.md)
+- react-redux
+- [react-actions](./redux-actions.md)
+- [Ducks 파일구조](./ducks.md)

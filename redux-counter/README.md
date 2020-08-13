@@ -16,7 +16,7 @@ React-redux, Redux를 이용해서 만든 카운터
 모듈화를 하고싶다면, [reducer를 여러개를 만든다.](./combineReducers.md) <br>
 나눠서 만든 각각의 reducer들은 고유의 state를 갖게되고, <br><br>
 Container 컴포넌트에서는 Connect시에, <br>
- ``mapStateToProps``에서 필요한 reducer의 State를 바인딩 함으로써, 불필요한 데이터에 대한 조작을 막을 수 있다. <br>
+ ``mapStateToProps``에서 사용할 reducer의 State를 바인딩 함으로써, 불필요한 데이터에 대한 조작을 막을 수 있다. <br>
 ##### (Action은 정의방식이 그냥 VainilaJS 이므로 객체로 그룹화해서 관리하면 될 듯)
 <br>
 
