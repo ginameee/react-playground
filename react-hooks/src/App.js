@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
-import UseStateApp from './useState/UseStateApp';
+import UseStateApp from './useState';
+import UseEffectApp from './useEffect';
+import UseReducerApp from './useReducer';
 
 const App = () => {
     return (
@@ -20,6 +22,8 @@ const App = () => {
             <hr></hr>
             <Switch>
                 <Route path="/useState" component={UseStateApp}></Route>
+                <Route path="/useEffect" component={UseEffectApp}></Route>
+                <Route path="/useReducer" component={UseReducerApp}></Route>
                 <Route render={() => (<p> 일치하는 페이지가 없습니다!</p>)}></Route>
             </Switch>
         </div>
