@@ -9,4 +9,5 @@
     npm run start
 
 ## 도움이 되는 사이트
-- [리액트패턴 모음](https://reactpatterns.com/) 
+- [패턴 모음](https://reactpatterns.com/) 
+- [공식문서](https://ko.reactjs.org/)
