@@ -1,7 +1,7 @@
 import React from 'react';
 import Average from './Average';
 
-const UseMemo = () => {
+const UseMemoCallback = () => {
     return (
         <div>
             <h1>
@@ -12,4 +12,4 @@ const UseMemo = () => {
     );
 }
 
-export default UseMemo;
+export default UseMemoCallback;

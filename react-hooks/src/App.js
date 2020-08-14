@@ -3,7 +3,7 @@ import { Route, Link, Switch } from 'react-router-dom';
 import UseStateApp from './useState';
 import UseEffectApp from './useEffect';
 import UseReducerApp from './useReducer';
-import UseMemoApp from './useMemo';
+import UseMemoCallback from './useMemoCallback';
 
 const App = () => {
     return (
@@ -25,7 +25,7 @@ const App = () => {
                 <Route path="/useState" component={UseStateApp}></Route>
                 <Route path="/useEffect" component={UseEffectApp}></Route>
                 <Route path="/useReducer" component={UseReducerApp}></Route>
-                <Route path="/useMemo" component={UseMemoApp}></Route>
+                <Route path={["/useMemo", "/useCallback"]} component={UseMemoCallback}></Route>
                 <Route render={() => (<p> 일치하는 페이지가 없습니다!</p>)}></Route>
             </Switch>
         </div>
