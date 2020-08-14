@@ -8,5 +8,5 @@
 ## 실행
     npm run start
 
-
-
+## 도움이 되는 사이트
+- [리액트패턴 모음](https://reactpatterns.com/) 
