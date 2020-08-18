@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import PageTemplate from './PageTemplate';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
 
-const initialTodos = new Array(500).fill(0).map(
-    (foo, idx) => {
+const initialTodos = new Array(5).fill(0).map(
+    (elem, idx) => {
         return {
             id: idx,
             text: `일정 ${idx}`,
@@ -12,43 +12,33 @@ const initialTodos = new Array(500).fill(0).map(
         }
     }
 );
+let id = 100;
 
-class App extends Component {
-    state = {
-        input: '',
-        todos: initialTodos
-    };
+const App = () => {
+    const [input, setInput] = useState('');
+    const [todos, setTodos] = useState(initialTodos);
 
-    id = this.state.todos.length;
-    getId = () => {
-        return ++this.id
-    };
-
-    handleChange = (e) => {
+    const handleChange = useCallback((e) => {
         const { value } = e.target;
+        setInput(value);
+    }, []);
 
-        this.setState({
-            input: value
-        });
-    };
-
-    handleInsert = () => {
-        const { todos, input } = this.state;
-
+    const handleInsert = useCallback((e) => {
         const newTodo = {
             text: input,
             done: false,
-            id: this.getId()
+            id
         }
+        id++
 
-        this.setState({
-            todos: [...todos, newTodo],
-            input: ''
-        });
-    };
+        //console.log(id);
 
-    handleToggle = (id) => {
-        const { todos } = this.state;
+        setTodos([newTodo, ...todos]);
+        setInput('');
+    }, [todos, input]);
+
+
+    const handleToggle = useCallback((id) => {
         const index = todos.findIndex(todo => todo.id === id);
 
         const toggled = {
@@ -56,40 +46,28 @@ class App extends Component {
             done: !todos[index].done
         };
 
-        this.setState({
-            todos: [
-                ...todos.slice(0, index),
-                toggled,
-                ...todos.slice(index + 1, todos.length)
-            ]
-        });
-    };
+        setTodos([
+            ...todos.slice(0, index),
+            toggled,
+            ...todos.slice(index + 1, todos.length)
+        ]);
+    });
 
-
-    handleRemove = (id) => {
-        const { todos } = this.state;
+    const handleRemove = (e) => {
         const index = todos.findIndex((todo) => todo.id === id);
 
         todos.splice(index, 1);
 
-        this.setState(
-            {
-                todos: [...todos]
-            }
-        );
+        setTodos([...todos]);
     };
 
-    render() {
-        const { input, todos } = this.state;
-        const { handleChange, handleInsert, handleToggle, handleRemove } = this;
 
-        return (
-            <PageTemplate>
-                <TodoInput onChange={handleChange} onInsert={handleInsert} value={input} />
-                <TodoList todos={todos} onToggle={handleToggle} onRemove={handleRemove} />
-            </PageTemplate>
-        )
-    }
+    return (
+        <PageTemplate>
+            <TodoInput onChange={handleChange} onInsert={handleInsert} value={input} />
+            <TodoList todos={todos} onToggle={handleToggle} onRemove={handleRemove} />
+        </PageTemplate>
+    )
 }
 
 export default App;

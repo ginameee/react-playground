@@ -3,9 +3,7 @@ import TodoItem from '../TodoItem';
 
 class TodoList extends Component {
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props.todos !== nextProps.todos
-    }
+
 
 
     render() {
@@ -16,14 +14,7 @@ class TodoList extends Component {
                 {
                     todos.map(
                         (todo) => (
-                            <TodoItem
-                                key={todo.id}
-                                done={todo.done}
-                                onToggle={() => { onToggle(todo.id) }}
-                                onRemove={() => { onRemove(todo.id) }}
-                            >
-                                {todo.text}
-                            </TodoItem>
+                            
                         )
                     )
                 }
