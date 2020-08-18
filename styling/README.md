@@ -84,8 +84,79 @@ in scss/css
 <br>
 
 ## CSS Module
+javascript에서 CSS를 마치 moudle처럼 불러와 사용하는 방식으로 <br>
+클래스 이름의 앞/뒤에 부가적인 정보를 붙여서 다른컴포넌트와의 클래스명 중복을 방지해준다.
 
+### 정의
+```css
+.wrapper {
+    background: black;
+    padding: 1rem;
+    color: white;
+    font-size: 2rem;
+}
+
+/** 글로벌 CSS는 앞에 :global을 붙여준다. */
+:global .something {
+    font-weight: 800;
+    color: aqua
+}
+```
+
+### 사용
+```javascript
+import React from 'react';
+import styles from './CSSModule.module.css';
+
+const CSSModule = () => {
+    return (
+        <div className={styles.[클래스_이름]}>
+            안녕하세요! 저는 <span className="something">CSS Module!</span>
+        </div>
+    )
+}
+```
+
+### Tip
+[classname](https://www.npmjs.com/package/classname) 패키지를 사용하면 조건부 클래스명이 가능해져셔 스타일링이 편해진다.
 
 <br>
 
 ## Styled-Components
+CSS-in-JS을 사용하기 위한 라이브러리 중 하나 <br>
+별도의 .css / .scss  파일을 만들지 않아도 된다는 장점이 있다.
+
+#### 설치
+```
+npm i styled-components
+```
+
+#### 사용
+[파일 소스 참고](./src/using-styled-components/StyledComponents.js)
+
+엘리먼트 스타일링
+```javascript
+import styled from 'styled-components';
+const ex = styled.div`
+    background: gray
+`;
+
+const exComp = () => <ex><ex>;
+```
+
+컴포넌트 스타일링
+```javascript
+import styled from 'styled-components';
+import MyComp from '@/components/MyComp';
+
+const StyledMyComp = styled(MyComp)`
+    color: blue
+`;
+
+const exComp = () => <StyledMyComp><StyledMyComp>;
+```
+
+#### Tip
+- vscode-styled-components 
+
+    VSCODE의 익스텐션으로, styled-components 문법이 단순한 문자열이 아닌 css문법으로 인식하게끔 해준다.

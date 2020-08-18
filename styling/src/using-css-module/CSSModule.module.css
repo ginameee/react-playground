@@ -1,0 +1,14 @@
+
+.wrapper {
+    background: black;
+    padding: 1rem;
+    color: white;
+    font-size: 2rem;
+}
+
+/** 글로벌 CSS는 앞에 :global을 붙여준다. */
+
+:global .something {
+    font-weight: 800;
+    color: aqua
+}
