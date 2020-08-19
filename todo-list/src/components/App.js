@@ -12,12 +12,20 @@ const initialTodos = new Array(5).fill(0).map(
         }
     }
 );
+
 let id = 100;
 
 const App = () => {
     const [input, setInput] = useState('');
     const [todos, setTodos] = useState(initialTodos);
 
+    console.log('create!', todos);
+
+    useEffect(
+        () => {
+            console.log('gg');
+        }
+    );
     const handleChange = useCallback((e) => {
         const { value } = e.target;
         setInput(value);
@@ -30,8 +38,6 @@ const App = () => {
             id
         }
         id++
-
-        //console.log(id);
 
         setTodos([newTodo, ...todos]);
         setInput('');
@@ -53,13 +59,13 @@ const App = () => {
         ]);
     });
 
-    const handleRemove = (e) => {
+    const handleRemove = useCallback((id) => {
         const index = todos.findIndex((todo) => todo.id === id);
 
         todos.splice(index, 1);
 
         setTodos([...todos]);
-    };
+    }, [todos]);
 
 
     return (

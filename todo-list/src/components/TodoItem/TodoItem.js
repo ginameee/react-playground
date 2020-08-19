@@ -5,9 +5,10 @@ import className from 'classnames/bind';
 const cx = className.bind(style);
 
 class TodoItem extends Component {
-    shouldComponentUpdate(nextProps) {
-        return this.props.done !== nextProps.done;
-    }
+    // 이놈 때문에 리스트 갱신이 제대로 되지 않았다. 지우지말고 계속 보며 잊지말자 하..
+    // shouldComponentUpdate(nextProps) {
+    //     return this.props.done !== nextProps.done;
+    // }
 
     render() {
         const { done, children, onToggle, onRemove } = this.props;

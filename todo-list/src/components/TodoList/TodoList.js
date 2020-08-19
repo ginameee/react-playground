@@ -3,8 +3,9 @@ import TodoItem from '../TodoItem';
 
 class TodoList extends Component {
 
-
-
+    componentDidUpdate() {
+        console.log(this.props.todos);
+    }
 
     render() {
         const { todos, onToggle, onRemove } = this.props;
@@ -14,7 +15,14 @@ class TodoList extends Component {
                 {
                     todos.map(
                         (todo) => (
-                            
+                            <TodoItem
+                                key={todo.id}
+                                done={todo.done}
+                                onToggle={() => { onToggle(todo.id) }}
+                                onRemove={() => { onRemove(todo.id) }}
+                            >
+                                {todo.text}
+                            </TodoItem>
                         )
                     )
                 }
