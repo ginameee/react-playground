@@ -43,3 +43,18 @@ li와 같은 리스팅에서 li간의 간격을 조절할 떄 유용하게 사�
 
 ShouldConentUpdate를 신중하게 사용하자..<br>
 이것 때문에 3시간 날렸다 하
+<br><br>
+
+
+### 함수형 컴포넌트가 2번 실행되는 이유
+```js
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+위처럼 StrictMode사용시 SideEffect Test를 위해, <br>
+React가 자체적으로 한번 더 실행하는 것 같다.
+dev 모드가 아닌 일반모드로 실행 시 생기지 않는다.
