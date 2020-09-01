@@ -3,7 +3,7 @@ import PageTemplate from './PageTemplate';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
 
-const initialTodos = new Array(5).fill(0).map(
+const initialTodos = new Array(2500).fill(0).map(
     (elem, idx) => {
         return {
             id: idx,

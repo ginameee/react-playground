@@ -13,10 +13,11 @@
     - SCSS
     - [classnames 모듈](https://www.npmjs.com/package/classnames)
 
-
 ---
 
-## 잡다하게 알게된 것 
+## 알게된 것 
+### 성능최적화
+
 ### CSS
 #### + selector
 classA 밑에 classB가 위치한 형태일 때, classB에 대한 스타일을 정의 <br>
