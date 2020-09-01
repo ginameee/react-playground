@@ -7,6 +7,8 @@
 
 ## 동적 로딩을 통한 코드스플리팅
 
+<hr>
+
 webpack 제공하는 import 함수를 이용해서, 동적으로 파일을 import 한다. <br>
 동적으로 import되는 파일은 호출하는 시점에 request 하게 된다.
 
@@ -24,9 +26,10 @@ import("./notify").then((result) => {
 
 <br>
 
-#### State를 이용
+#### State를 이용 ([App.state.js](./src/App.state.js))
 
-동적으로 import한 컴포넌트를 state에 저장한다.
+동적으로 import한 컴포넌트를 state에 저장한다. <br>
+단점) 매번 컴포넌트를 저장할 state를 선언해주어야 한다.
 
 ```js
 class App extends React.Component {
@@ -55,3 +58,7 @@ class App extends React.Component {
   }
 }
 ```
+
+<br>
+
+#### Suspense Component & React.lazy 이용하기

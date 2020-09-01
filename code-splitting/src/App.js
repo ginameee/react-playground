@@ -1,52 +1,25 @@
-import React from "react";
+import React, { useState, Suspense } from "react";
 import "./App.css";
-// import notify from "./notify"; // 일반적인 import
 
-class App extends React.Component {
-  state = {
-    SplitMe: null,
+const SplitMe = React.lazy(() => import("./SplitMe"));
+
+function App() {
+  const [visible, setVisible] = useState(false);
+
+  const onClick = () => {
+    setVisible(true);
   };
 
-  handleClick = async () => {
-    const loadedModule = await import("./SplitMe");
-    this.setState({
-      SplitMe: loadedModule.default,
-    });
-  };
-
-  render() {
-    const { SplitMe } = this.state;
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p onClick={this.handleClick}>Hello React!</p>
-          {SplitMe && <SplitMe />}
-        </header>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <header className="App-header">
+        <p onClick={onClick}>Hello React!</p>
+        <Suspense fallback={<div>loading ... </div>}>
+          {visible && <SplitMe />}
+        </Suspense>
+      </header>
+    </div>
+  );
 }
-
-// function App() {
-//   const onClick = () => {
-//     // notify(); // 일반적인 import
-
-//     // 동적 import
-//     import("./notify").then((result) => {
-//       // export default는 result.default를 참조한다.
-//       result.default();
-//     });
-//   };
-
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <p>Hello React!</p>
-//         <p onClick={onClick}>Hello React!</p>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
