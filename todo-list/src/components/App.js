@@ -11,7 +11,7 @@ const initialTodos = new Array(2500).fill(0).map((elem, idx) => {
   };
 });
 
-let id = 100;
+let id = 2501;
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -39,16 +39,9 @@ const App = () => {
   );
 
   const handleToggle = useCallback((id) => {
-    const index = todos.findIndex((todo) => todo.id === id);
-
-    const toggled = {
-      ...todos[index],
-      done: !todos[index].done,
-    };
-
     setTodos((todos) =>
       todos.map((todo) =>
-        todo.id === id ? { ...todo, checked: !todo.checked } : todo
+        todo.id === id ? { ...todo, done: !todo.done } : todo
       )
     );
   }, []);

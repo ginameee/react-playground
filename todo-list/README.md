@@ -20,6 +20,10 @@
 
 ## 성능최적화
 
+> 보여줄 항목이 100개 이상이고, 업데이트가 자주 발생한다면 최적화를 진행하자!
+
+<br>
+
 ### React.memo
 
 함수형 컴포넌트에서 shouldComponentUpdate or Purecomponent 대신 사용할 수 있는 방법,
@@ -85,6 +89,95 @@ const handleInsert = useCallback(
 
 <br>
 <br>
+
+### react-virtualized
+
+보이는 component만 렌더링 작업을 하여 리소스를 아낀다. <br>
+
+<br>
+
+설치
+
+```
+npm i react-virtualized
+```
+
+<br>
+사용 <br>
+보이는 영역을 세팅해주고, 보이는 영역일때 수행 될 render 함수를 정의해준다.
+
+[TodoList.js](./src/components/TodoList/TodoList.js)
+
+```js
+import React, { useCallback } from "react";
+import { List } from "react-virtualized";
+import TodoItem from "../TodoItem";
+
+const TodoList = ({ todos, onToggle, onRemove }) => {
+  const rowRenderer = useCallback(
+    ({ index, key, style }) => {
+      const todo = todos[index];
+
+      return (
+        <TodoItem
+          key={key}
+          done={todo.done}
+          onToggle={() => {
+            onToggle(todo.id);
+          }}
+          onRemove={() => {
+            onRemove(todo.id);
+          }}
+          style={style}
+        >
+          {todo.text}
+        </TodoItem>
+      );
+    },
+    [todos, onToggle, onRemove]
+  );
+
+  return (
+    <List
+      className="TodoList"
+      width={500} // 리스트 전체높이
+      height={513} // 리스트 전체크기
+      rowCount={todos.length} // 항목 갯수
+      rowHeight={57} // 항목 높이
+      rowRenderer={rowRenderer} // 항목 렌더링 함수
+      list={todos} // 항목
+      style={{ outline: "none" }} // 목록 전체에 적용되는 기본 스타일
+    ></List>
+  );
+};
+```
+
+스타일 깨짐 현상 해결 <br>
+[TodoItem.js](./src/components/TodoItem/TodoItem.js)
+
+```js
+// 1. style prop 추가
+// 2. TodoListItem-virtualized 클래스 div wrapper element 추가 & styled prop 적용
+const TodoItem = ({ done, children, onToggle, onRemove, style }) => {
+  return (
+    <div className="TodoListItem-virtualized" style={style}>
+      <div className={cx("todo-item")} onClick={onToggle}>
+        <input className={cx("tick")} type="checkbox" checked={done} readOnly />
+        <div className={cx("text", { done })}>{children}</div>
+        <div
+          className={cx("delete")}
+          onClick={(e) => {
+            onRemove();
+            e.stopPropagation();
+          }}
+        >
+          [지우기]
+        </div>
+      </div>
+    </div>
+  );
+};
+```
 
 <br>
 <br>

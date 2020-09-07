@@ -1,22 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import style from "./TodoItem.scss";
 import className from "classnames/bind";
 
 const cx = className.bind(style);
 
-const TodoItem = ({ done, children, onToggle, onRemove }) => {
+const TodoItem = ({ done, children, onToggle, onRemove, style }) => {
   return (
-    <div className={cx("todo-item")} onClick={onToggle}>
-      <input className={cx("tick")} type="checkbox" checked={done} readOnly />
-      <div className={cx("text", { done })}>{children}</div>
-      <div
-        className={cx("delete")}
-        onClick={(e) => {
-          onRemove();
-          e.stopPropagation();
-        }}
-      >
-        [지우기]
+    <div className="TodoListItem-virtualized" style={style}>
+      <div className={cx("todo-item")} onClick={onToggle}>
+        <input className={cx("tick")} type="checkbox" checked={done} readOnly />
+        <div className={cx("text", { done })}>{children}</div>
+        <div
+          className={cx("delete")}
+          onClick={(e) => {
+            onRemove();
+            e.stopPropagation();
+          }}
+        >
+          [지우기]
+        </div>
       </div>
     </div>
   );
