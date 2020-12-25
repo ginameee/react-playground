@@ -5,7 +5,7 @@ React state와 생명주기 기능(lifecycle features)을 “연동(hook into)�
 
 - useState
 - [useEffect](./src/useEffect/readme.md)
-- useReducer
+- [useReducer](./src/useReducer/readme.md)
 - [useMemo](./src/useMemoCallback/readme.md)
 - [useCallback](./src/useMemoCallback/readme.md)
 - [useRef](./src/useRef/readme.md)
