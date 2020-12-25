@@ -1,5 +1,6 @@
 # React Hooks
 
+React state와 생명주기 기능(lifecycle features)을 “연동(hook into)“할 수 있게 해주는 함수입니다
 함수형 컴포넌트에서도 클래스 컴포넌트의 기능(Life cycle, state 등..)을 사용하기 위해 고안된 기술
 
 - useState

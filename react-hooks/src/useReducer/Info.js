@@ -13,6 +13,7 @@ const Info = () => {
     const { name, nickname } = state;
 
     const onChange = (e) => {
+        console.dir(e.target);
         dispatch(e.target);
     }
 
