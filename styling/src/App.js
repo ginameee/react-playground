@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import './App.css';
 import SassComponent from './using-scss/SassComponent';
 import CssModule from './using-css-module/CSSModule';
 import StyledComponents from './using-styled-components/StyledComponents';
