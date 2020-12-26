@@ -20,7 +20,7 @@ export default class extends React.Component {
     componentDidMount() {
         store.subscribe(
             () => {
-                this.setState({ number: store.getState().number });ㅊ
+                this.setState({ number: store.getState().number });
             }
         );
     }
