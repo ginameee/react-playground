@@ -9,6 +9,7 @@ React state와 생명주기 기능(lifecycle features)을 “연동(hook into)�
 - [useMemo](./src/useMemoCallback/readme.md)
 - [useCallback](./src/useMemoCallback/readme.md)
 - [useRef](./src/useRef/readme.md)
+- [useSelector](../redux-example/useSelector.md)
 - custom Hooks
 
 ---
