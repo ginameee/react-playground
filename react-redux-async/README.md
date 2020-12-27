@@ -60,8 +60,7 @@ ReactDOM.render(
 );
 ```
 
-3. 액션생성함수 정의\
-   함수형태로 return
+3. 액션생성함수 정의 (thunk를 리턴)
 
 ```js
 ...
@@ -216,25 +215,111 @@ npm i redux-saga
 ```
 
 2. saga 구현
+   1. saga 정의
+   2. 정의한 saga들을 액션과 mapping 해주는 module saga 생성
+
+modules/sample.js
 
 ```js
+...
+import { createAction, handleActions } from "redux-actions";
+import { call, put, takeLatest } from "redux-saga";
 
-```
+const GET_POST = "sample/GET_POST";
+const GET_POST_SUCCESS = "sample/GET_POST_SUCCESS";
 
-3. 정의한 saga들을 액션과 mapping 해주는 module saga 생성
+export getPost = createAction(GET_POST);
 
-```js
+/*
+  1. saga 정의
+*/
+function* getPostSaga(action) {
+  const id = action.payload;
+  const response = yield call(api.getPost, action.id);
 
+  yield put({ type: GET_POST_SUCCESS, payload: response.data })
+}
+
+/*
+  2. module saga 생성
+ */
+export function* sampleSaga() {
+  yield takeLatest(GET_POST, getPostSaga);
+}
+
+const initialState = {
+  post: null,
+};
+
+const sample = handleActions(
+  {
+    [GET_POST_SUCCESS]: (state, action) => {
+      return {
+        ...state,
+        post: action.payload,
+      };
+    },
+  },
+  initialState
+);
+
+export default sample;
 ```
 
 4. module saga들을 묶어 rootSaga 생성
 
-```js
+modules/index.js
 
+```js
+import { combineReducers } from "redux";
+import { all } from "redux-saga/effects";
+import counter, { counterSaga } from "./counterSaga";
+import sample, { sampleSaga } from "./sampleSaga";
+
+const rootReducer = combineReducers({
+  sample,
+  counter,
+});
+
+export function* rootSaga() {
+  yield all([counterSaga(), sampleSaga()]);
+}
+
+export default rootReducer;
 ```
 
 5. 미들웨어 적용
 
-```js
+index.js
 
+```js
+...
+import { createStore, applyMiddleware } from "redux";
+import rootReducer, { rootSaga } from "./modules";
+import createSagaMiddleware from "redux-saga";
+
+/*
+  1. saga middleware 생성
+*/
+const sagaMiddleware = createSagaMiddleware();
+
+/*
+  2. store에 saga middleware 적용
+*/
+const store = createStore(
+  rootReducer,
+  applyMiddleware(sagaMiddleware)
+);
+
+/*
+  3. saga middleware 실행
+*/
+sagaMiddleware.run(rootSaga);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 ```
