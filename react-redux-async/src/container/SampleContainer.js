@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Sample from '../components/Sample';
-import { getPost, getUsers } from '../modules/sample';
+// import { getPost, getUsers } from '../modules/sampleThunk';
+import { getPost, getUsers } from '../modules/sampleSaga';
 
 const { useEffect } = React;
 const SampleCounter = ({
@@ -31,8 +32,8 @@ export default connect(
     ({ sample, loading }) => ({
         post: sample.post,
         users: sample.users,
-        loadingPost: loading[sample.loading.GET_POST],
-        loadingUsers: loading[sample.loading.GET_USERS],
+        loadingPost: loading['sample/GET_POST'],
+        loadingUsers: loading['sample/GET_USERS'],
     }),
     {
         getPost,

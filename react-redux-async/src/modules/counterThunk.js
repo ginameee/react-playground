@@ -24,7 +24,7 @@ export const decreaseAsync = () => dispatch => {
 
 const initialState = 3;
 
-const counter = handleActions(
+const counterThunk = handleActions(
     {
         [INCREASE]: state => state + 1,
         [DECREASE]: state => state - 1
@@ -32,4 +32,4 @@ const counter = handleActions(
     initialState
 );
 
-export default counter;
+export default counterThunk;

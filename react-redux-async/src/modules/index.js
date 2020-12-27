@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
-import sample from './sample';
-import counter from './counter';
+import { all } from 'redux-saga/effects';
+// import sample from './sampleThunk';
+// import counter from './counterThunk';
+import counter, { counterSaga } from './counterSaga';
+import sample, { sampleSaga } from './sampleSaga';
 import loading from './loading';
 
 const rootReducer = combineReducers({
@@ -8,5 +11,9 @@ const rootReducer = combineReducers({
     counter,
     loading
 });
+
+export function* rootSaga() {
+    yield all([counterSaga(), sampleSaga()]);
+}
 
 export default rootReducer;
